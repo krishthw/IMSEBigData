@@ -1,4 +1,6 @@
-# This is a code to generate line plot for weather for consecative months
+# This is a code to generate line plot for weather data
+# need to have 4 columns "Date","Minimum Temperature","Mean Temperature","Maximum Temperature"
+# Date shoud be in %m/%d/%y format
 
 #import libraries
 import pandas as pd
@@ -6,8 +8,8 @@ import matplotlib.pyplot as plt
 
 # impoart data
 df=pd.read_csv("2020_weatherdata.csv")
-# in case you have "no data." in columns change type "object" to "float64"
-# this will introduce NaN to any strings present
+
+# in case you have "no data." in columns change type "object" to "float64" , this will introduce NaN to any strings present
 df['Minimum Temperature']=pd.to_numeric(df['Minimum Temperature'], errors='coerce')
 df['Mean Temperature']=pd.to_numeric(df['Mean Temperature'], errors='coerce')
 df['Maximum Temperature']=pd.to_numeric(df['Maximum Temperature'], errors='coerce')
@@ -24,11 +26,12 @@ meandf=meandf.sort_values(by='MY')
 # delete the extra columns
 meandf.drop('MY', axis=1, inplace=True)
 meandf.set_index(meandf['Month_Year'],inplace=True)
+
 # save monthly data values in csv
 meandf.to_csv(r'meandata.csv', index = False)
 
+# plotting
 plt.rcParams.update({'font.size':15})
-
 meandf.plot(stacked=False,figsize=(20,10),
            color=['powderblue','orange','red'],
            linewidth=3.0,
