@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # impoart data
-df=pd.read_csv("2020_weatherdata.csv")
+df=pd.read_csv("weatherdata.csv")
 
 # in case you have "no data." in columns change type "object" to "float64" , this will introduce NaN to any strings present
 df['Minimum Temperature']=pd.to_numeric(df['Minimum Temperature'], errors='coerce')
@@ -16,7 +16,7 @@ df['Maximum Temperature']=pd.to_numeric(df['Maximum Temperature'], errors='coerc
 # create a new column containing year
 df['Month_Year'] = pd.to_datetime(df['Date'],format='%m/%d/%y').apply(lambda x: x.strftime('%b %Y'))
 # calculate monthly values
-meandf=df.groupby(by=['Month_Year'])[['Minimum Temperature','Mean Temperature','Maximum Temperature']].mean()
+meandf=df.groupby(by=['Month_Year'])[['Minimum Temperature','Mean Temperature','Maximum Temperature']].mean().round(2)
 # reset index
 meandf.reset_index(inplace=True) 
 # create a datetime column "MY" to use for sorting
@@ -32,7 +32,9 @@ meandf.to_csv(r'meandata.csv', index = False)
 
 # plotting
 plt.rcParams.update({'font.size':15})
-meandf.plot(stacked=False,figsize=(20,10),
+ax=meandf.plot(stacked=False,figsize=(20,10),
+           kind = 'bar',
            color=['powderblue','orange','red'],
            linewidth=3.0,
-           title='Temperature ')
+           title='Temperature')
+ax.set_ylabel("Average Temperature (°F)")
