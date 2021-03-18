@@ -23,15 +23,19 @@ value = Newly computed PageRank (using the formula)
 **Steps**  
 
 1. execute mapper and runner
+
         chmod +x mapperP3K.py 
         chmod +x reducerP3K.py 
 2. copy v_initial.csv to mapper input vector.csv
+
         cp v_initial.csv vector.csv  
         
 3. unix pipe command to get the answer to 1st iteration
+
         cat M.csv | python mapperP3K.py | python reducerP3K.py  
         
 4. Run iteration twice in HDFS. mapper, reducer, runner and vector should be in home directory and M.csv should be in HDFS. 
+
         bash runmrP3K.sh  
         
 **Description for runmrP3K.sh**  
